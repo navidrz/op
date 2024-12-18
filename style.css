@@ -1,0 +1,505 @@
+/* styles.css */
+
+/*===============================================
+  GLOBAL VARIABLES & BASE STYLES
+===============================================*/
+
+:root {
+    /* Brand and UI Variables */
+    --font-main: 'Vazir', sans-serif;
+    --font-fallback: sans-serif; /* Fallback font if Vazir not available */
+    --color-accent: #2ecc71;
+    --color-accent-dark: #27ae60;
+    --color-secondary: #e74c3c;
+    --transition: 0.3s ease;
+    --radius: 8px;
+  
+    /* Light Mode Colors */
+    --color-bg: linear-gradient(135deg, #f9f9fc 0%, #f2f2f5 100%);
+    --color-card-bg: #ffffff;
+    --color-text: #333;
+    --color-text-light: #555;
+    --color-header: #fff;
+    --color-dark-bg: #2c3e50;
+    --color-dark-text: #ecf0f1;
+    --color-tooltip-bg: #fff;
+    --color-tooltip-text: #333;
+  
+    /* Spacing */
+    --spacing-s: 8px;
+    --spacing-m: 15px;
+    --spacing-l: 20px;
+  }
+  
+  body.dark-mode {
+    /* Dark Mode Overrides */
+    --color-bg: linear-gradient(135deg, #2c3e50 0%, #3a4a5a 100%);
+    --color-card-bg: #3a4a5a;
+    --color-text: #ecf0f1;
+    --color-text-light: #bdc3c7;
+    --color-header: #ecf0f1;
+    --color-accent: #27ae60;
+    --color-accent-dark: #2ecc71;
+    --color-tooltip-bg: #ecf0f1;
+    --color-tooltip-text: #2c3e50;
+  }
+  
+  body {
+    margin:0; padding:0;
+    font-family: var(--font-main), var(--font-fallback);
+    background: var(--color-bg); color: var(--color-text);
+    direction:rtl; text-align:right; line-height:1.7;
+    overflow-x:hidden;
+  }
+  
+  /* Ensure a visible focus outline for better accessibility */
+  :focus {
+    outline: 2px dashed var(--color-accent);
+    outline-offset: 3px;
+  }
+  
+  /* Remove focus outline for mouse users while retaining it for keyboard users */
+  :focus:not(:focus-visible) {
+    outline:none;
+  }
+  
+  /* Typography resets for headings */
+  h1, h2, h3 {
+    margin-top:0;
+  }
+  
+  /* Links and buttons get a smooth transition on hover/focus */
+  a, button, input, select {
+    font-family:inherit;
+    transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
+  }
+  
+  /*===============================================
+    HEADER & DARK MODE TOGGLE
+  ===============================================*/
+  
+  header {
+    text-align:center;
+    color:var(--color-header);
+    padding:var(--spacing-l);
+    position:relative;
+    background: var(--color-accent);
+    border-bottom: 3px solid var(--color-accent-dark);
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  }
+  header h1 {
+    margin:0; font-size:1.3em; font-weight:900;
+  }
+  
+  /* Dark Mode Toggle Container */
+  .dark-mode-toggle-container {
+    position:absolute; top:var(--spacing-l); left:var(--spacing-l);
+    display:flex; align-items:center; gap:10px;
+  }
+  .dark-mode-toggle-container label {
+    display:flex; align-items:center; gap:5px; cursor:pointer;
+    font-size:0.9em; font-weight:bold; color:#fff;
+    background:rgba(0,0,0,0.2); padding:8px 12px; border-radius:var(--radius);
+  }
+  .dark-mode-toggle-container label:hover {
+    background:rgba(0,0,0,0.35);
+  }
+  .dark-mode-toggle-container input[type="checkbox"] {
+    width:0; height:0; opacity:0; position:absolute;
+  }
+  .dark-mode-toggle-container .toggle {
+    width:40px; height:20px; background:#fff; border-radius:10px; position:relative;
+  }
+  .dark-mode-toggle-container .toggle::after {
+    content:""; width:16px; height:16px; background:var(--color-accent);
+    border-radius:50%; position:absolute; top:2px; left:2px;
+    transition: left var(--transition);
+  }
+  .dark-mode-toggle-container input[type="checkbox"]:checked + .toggle::after {
+    left:22px;
+  }
+  .dark-mode-toggle-container input[type="checkbox"]:checked + .toggle {
+    background:#ecf0f1;
+  }
+  .dark-mode-toggle-container .mode-icon {
+    font-size:1.2em;
+  }
+  
+  /* Tour Button */
+  #tourBtn {
+    position:absolute; top:20px; right:20px; background:rgba(0,0,0,0.2); border:none; color:#fff;
+    padding:8px 12px; border-radius:var(--radius); cursor:pointer; font-weight:bold; font-size:0.9em;
+  }
+  #tourBtn:hover { background:rgba(0,0,0,0.35); transform:scale(1.05); }
+  
+  /*===============================================
+    TIPS SECTION & SCENARIO STORY
+  ===============================================*/
+  
+  #tipsSection {
+    max-width:1200px; margin:var(--spacing-l) auto; padding:0 20px; text-align:center;
+    color:var(--color-text); font-size:1em; font-weight:bold;
+  }
+  #tipsSection p {
+    background:var(--color-card-bg); display:inline-block; padding:10px 20px; border-radius:var(--radius);
+    color:var(--color-text); box-shadow:0 1px 4px rgba(0,0,0,0.05);
+  }
+  
+  #scenarioStory {
+    max-width:1200px; margin:20px auto; padding:10px 20px; text-align:center;
+    font-size:1em; font-weight:bold; color:var(--color-text);
+  }
+  
+  /*===============================================
+    SUMMARY CARDS
+  ===============================================*/
+  
+  #summary {
+    max-width:1200px; margin:20px auto; padding:0 20px; display:grid; grid-template-columns:1fr; gap:20px; margin-top:20px;
+  }
+  @media(min-width:768px){
+    #summary {
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    }
+  }
+  .card {
+    background:var(--color-card-bg); border-radius:var(--radius); box-shadow:0 1px 6px rgba(0,0,0,0.05);
+    padding:20px; text-align:center; transition:transform var(--transition), box-shadow var(--transition);
+    position:relative; color:var(--color-text);
+  }
+  .card:hover { transform:translateY(-3px); box-shadow:0 4px 15px rgba(0,0,0,0.08); }
+  .card h3 { margin-bottom:10px; font-size:1em; font-weight:700; }
+  .card p { margin:0; font-size:1.2em; line-height:1.4; font-weight:bold; }
+  
+  /*===============================================
+    RECOMMENDATIONS SECTION
+  ===============================================*/
+  
+  #recommendations {
+    max-width:1200px; margin:20px auto; padding:0 20px; display:none; flex-wrap:wrap; gap:20px; margin-top:20px;
+    flex-direction:column; align-items:center;
+  }
+  #recommendations.show { display:flex; }
+  #recommendations h2 {
+    font-size:1.2em; color:var(--color-text); margin-bottom:10px; text-align:center; font-weight:700;
+  }
+  .recommendation-explanation {
+    font-size:0.9em; color:var(--color-text); background:var(--color-card-bg);
+    padding:10px; border-radius:var(--radius); box-shadow:0 1px 4px rgba(0,0,0,0.05);
+    margin-bottom:15px; line-height:1.5; text-align:center;
+  }
+  .recommendation-col {
+    flex:1; min-width:260px; background:var(--color-card-bg); border-radius:var(--radius);
+    box-shadow:0 1px 4px rgba(0,0,0,0.05); padding:15px;
+  }
+  .recommendation-col h3 {
+    font-size:1em; margin-bottom:10px; text-align:center; font-weight:700;
+  }
+  .recommendation-item {
+    padding:10px 0; font-size:0.9em; border-bottom:1px solid #eee; position:relative; line-height:1.6;
+  }
+  .recommendation-item:last-child { border-bottom:none; }
+  .recommendation-item .item-header {
+    font-weight:bold; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .recommendation-item .option-name { font-weight:bold; }
+  .recommendation-item .rank-badge { font-size:1.2em; }
+  .recommendation-item .metrics {
+    font-size:0.85em; color:var(--color-text); display:flex; gap:10px; flex-wrap:wrap; align-items:center; font-weight:600;
+    margin-bottom:5px;
+  }
+  .recommendation-item .commentary {
+    font-size:0.85em; color:var(--color-text-light); margin-top:5px; line-height:1.4;
+  }
+  .recommendation-item .badges {
+    display:flex; gap:5px; font-size:0.75em; margin-top:5px;
+  }
+  .recommendation-item .badge {
+    background:#f0f0f0; padding:2px 6px; border-radius:var(--radius); color:#333;
+  }
+  .no-recommendation-message {
+    font-size:0.9em; color:#888; text-align:center; padding:10px 0;
+  }
+  
+  /*===============================================
+    FAVORITES SECTION
+  ===============================================*/
+  
+  #favoritesSection {
+    max-width:1200px; margin:20px auto; padding:10px 20px; background:var(--color-card-bg);
+    border-radius:var(--radius); box-shadow:0 1px 4px rgba(0,0,0,0.05);
+    display:none; flex-wrap:wrap; gap:10px; align-items:center; margin-top:20px;
+  }
+  #favoritesSection h2 {
+    font-size:1em; color:var(--color-text); margin-bottom:5px; font-weight:bold; text-align:right; width:100%;
+  }
+  .favorite-item {
+    background:#fefefe; border-radius:var(--radius); padding:5px 10px; font-size:0.9em;
+    display:inline-flex; align-items:center; gap:5px; box-shadow:0 1px 4px rgba(0,0,0,0.05);
+  }
+  .favorite-item .remove-fav {
+    cursor:pointer; color:var(--color-secondary); font-weight:bold;
+  }
+  
+  /*===============================================
+    METRIC SELECTOR
+  ===============================================*/
+  
+  #metricSelector {
+    max-width:1200px; margin:20px auto; padding:10px 20px; background:var(--color-card-bg);
+    border-radius:var(--radius); display:flex; gap:15px; align-items:center; margin-top:20px; font-size:0.9em;
+    box-shadow:0 1px 4px rgba(0,0,0,0.05); flex-wrap:wrap;
+  }
+  #metricSelector h2 {
+    margin:0; font-size:1em; font-weight:bold;
+  }
+  #metricSelector label {
+    display:flex; align-items:center; gap:5px; cursor:pointer;
+  }
+  
+  /*===============================================
+    DATA CONTAINER & OPTION CARDS
+  ===============================================*/
+  
+  #dataContainer {
+    max-width:1200px; margin:20px auto; padding:0 20px; display:grid; grid-template-columns:1fr; gap:20px; margin-top:20px;
+  }
+  @media(min-width:768px) {
+    #dataContainer {
+      grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    }
+  }
+  
+  .option-card {
+    background:var(--color-card-bg); border-radius:var(--radius); box-shadow:0 1px 8px rgba(0,0,0,0.05);
+    padding:20px; position:relative; transition:transform var(--transition), box-shadow var(--transition);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option-card:hover {
+    transform:translateY(-3px); box-shadow:0 4px 15px rgba(0,0,0,0.08);
+  }
+  .option-header {
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;
+  }
+  .option-name {
+    font-weight:bold; font-size:1em; color:var(--color-text);
+  }
+  
+  .badges {
+    display:flex; gap:5px; font-size:0.8em;
+  }
+  .badge {
+    background:#f0f0f0; padding:2px 6px; border-radius:var(--radius); color:#333;
+  }
+  
+  .section-label {
+    font-weight:bold; font-size:0.9em; margin-bottom:5px; display:flex; align-items:center; gap:5px; color:var(--color-text);
+  }
+  .section-label span.icon { font-size:1.1em; }
+  
+  .payout-section, .pop-section, .risk-section, .commentary-section, .relative-section, .sharpe-section {
+    border-top:1px solid #eee; padding-top:10px; margin-top:10px;
+  }
+  .commentary-section div {
+    color:var(--color-text-light); font-size:0.9em; line-height:1.4;
+  }
+  
+  /* Tooltip */
+  .tooltip {
+    position:relative; cursor:help;
+  }
+  .tooltip:hover::after {
+    content: attr(data-tooltip);
+    background:var(--color-tooltip-bg); color:var(--color-tooltip-text);
+    font-size:0.85em; padding:8px 12px; border-radius:var(--radius);
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    position:absolute; bottom:-55px; left:50%; transform:translateX(-50%);
+    white-space:normal; width:max-content; max-width:250px; pointer-events:none; z-index:9999; text-align:center; line-height:1.4;
+  }
+  
+  /* Strategy classes */
+  body.strategy-long .option-card .short-metrics {
+    opacity:0.3; pointer-events:none; filter:grayscale(80%);
+  }
+  body.strategy-short .option-card .long-metrics {
+    opacity:0.3; pointer-events:none; filter:grayscale(80%);
+  }
+  
+  /*===============================================
+    BOTTOM BAR (MOBILE)
+  ===============================================*/
+  
+  .bottom-bar {
+    display:flex; position:fixed; bottom:0; left:0; right:0; background:var(--color-card-bg);
+    box-shadow:0 -2px 5px rgba(0,0,0,0.1); padding:10px; justify-content:space-evenly; align-items:center; gap:10px; z-index:9999;
+  }
+  .bottom-bar button {
+    padding:10px 15px; border:none; border-radius:var(--radius);
+    background:var(--color-accent); color:#fff; font-size:0.9em; cursor:pointer; font-weight:bold;
+  }
+  .bottom-bar button:hover {
+    background:var(--color-accent-dark); transform:scale(1.05);
+  }
+  @media(min-width:768px) {
+    .bottom-bar { display:none; }
+  }
+  
+  /*===============================================
+    GO TOP BUTTON
+  ===============================================*/
+  
+  #goTopBtn {
+    display:none; position:fixed; bottom:100px; left:20px; background:var(--color-accent);
+    color:#fff; border:none; padding:10px; border-radius:50%; cursor:pointer; font-size:1em;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1); transition: background var(--transition), transform var(--transition);
+    z-index:9999;
+  }
+  #goTopBtn:hover {
+    background:var(--color-accent-dark); transform:scale(1.05);
+  }
+  
+  /*===============================================
+    LOADING OVERLAY & SPINNER
+  ===============================================*/
+  
+  #loadingOverlay {
+    position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.3);
+    display:flex; justify-content:center; align-items:center; z-index:9999; transition: opacity 0.5s ease;
+  }
+  .spinner {
+    width:50px; height:50px; border:6px solid #f3f3f3; border-top:6px solid var(--color-accent); border-radius:50%;
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% {transform:rotate(0deg)}
+    100% {transform:rotate(360deg)}
+  }
+  
+  /*===============================================
+    COMPARE BAR & MODAL
+  ===============================================*/
+  
+  #compareBar {
+    display:none; position:fixed; bottom:60px; left:0; right:0; background:var(--color-card-bg); z-index:9999;
+    box-shadow:0 -2px 5px rgba(0,0,0,0.1); padding:10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center;
+  }
+  .compare-item {
+    background:#f7f9fb; border-radius:var(--radius); padding:5px 10px;
+    display:flex; gap:5px; align-items:center; font-size:0.9em; box-shadow:0 1px 4px rgba(0,0,0,0.05);
+  }
+  .compare-item .remove-compare {
+    cursor:pointer; color:var(--color-secondary); font-weight:bold;
+  }
+  #compareBtn {
+    padding:8px 12px; background:var(--color-accent); color:#fff; border:none; border-radius:var(--radius); font-weight:bold; cursor:pointer;
+  }
+  #compareBtn:hover {
+    background:var(--color-accent-dark);
+  }
+  
+  #compareModal {
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+    background:rgba(0,0,0,0.5); z-index:10000; justify-content:center; align-items:center; padding:20px;
+  }
+  #compareModalContent {
+    background:var(--color-card-bg); padding:20px; border-radius:var(--radius); max-width:600px; width:100%;
+    text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  }
+  #compareModalContent h2 {
+    margin-bottom:20px; font-size:1.1em; font-weight:bold;
+  }
+  .compare-table {
+    width:100%; border-collapse:collapse; margin-bottom:20px; font-size:0.85em;
+  }
+  .compare-table th, .compare-table td {
+    border:1px solid #ccc; padding:10px;
+  }
+  .close-compare {
+    background:var(--color-secondary); color:#fff; border:none; padding:8px 15px; border-radius:var(--radius);
+    cursor:pointer; font-weight:bold; transition: background var(--transition);
+  }
+  .close-compare:hover {
+    background:#c0392b;
+  }
+  
+  /*===============================================
+    BADGE POPUP
+  ===============================================*/
+  
+  #badgePopup {
+    position:fixed; top:20px; right:20px; background:var(--color-accent); color:#fff; padding:10px 15px;
+    border-radius:var(--radius); font-size:0.9em; display:none; z-index:10001; box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  }
+  #badgePopup span.icon { margin-left:5px; }
+  
+  /*===============================================
+    TOUR OVERLAY
+  ===============================================*/
+  
+  #tourOverlay {
+    display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7);
+    z-index:10002; justify-content:center; align-items:center; color:#fff; font-size:1em; padding:20px; text-align:center; line-height:1.6;
+  }
+  #tourOverlay p {
+    margin-bottom:20px;
+  }
+  #tourOverlay button {
+    background:var(--color-accent); border:none; color:#fff; padding:10px 15px; border-radius:var(--radius);
+    cursor:pointer; font-weight:bold; margin:5px; transition: background var(--transition);
+  }
+  #tourOverlay button:hover {
+    background:var(--color-accent-dark);
+  }
+  
+  .mini-chart-container {
+    width:100%; height:30px; margin-top:5px; text-align:center;
+  }
+  .mini-chart-container svg {
+    width:100%; height:30px; stroke:var(--color-accent); fill:none; stroke-width:2;
+  }
+  
+  #captureContainer {
+    position: fixed; top: -9999px; left: -9999px; width: 500px; background: #fff; color: #333;
+    font-family: 'Vazir', var(--font-fallback); padding: 20px; border-radius: 8px;
+    box-shadow: none; border: 1px solid #ccc; direction: rtl;
+  }
+  
+  /* Neutralizing transitions and hovers inside captureContainer for stable image generation */
+  #captureContainer .option-card:hover {
+    transform: none !important; box-shadow: none !important;
+  }
+  #captureContainer * {
+    transition: none !important; animation: none !important;
+  }
+  #captureContainer .option-card {
+    width: 100%; margin: 0; position: relative; padding-top: 50px;
+  }
+  #captureContainer .watermark {
+    position: absolute; top: 10px; right: 10px; width: 60px; opacity: 0.8;
+  }
+  #captureContainer .card-actions button:hover {
+    transform: none; background: #f7f7f9; border-color: #ddd;
+  }
+  
+  /*===============================================
+    PRINT STYLES (Optional)
+  ===============================================*/
+  
+  @media print {
+    body {
+      background:#fff; color:#000;
+    }
+    /* Hide elements not needed in print */
+    .dark-mode-toggle-container, #tourBtn, .bottom-bar, #goTopBtn, #compareBar, #compareModal, #badgePopup, #tourOverlay, #loadingOverlay {
+      display:none !important;
+    }
+    /* Print-friendly styling for cards and text */
+    #dataContainer, #summary, #favoritesSection, #tipsSection, #scenarioStory {
+      box-shadow:none; background:none;
+    }
+    a {
+      text-decoration:underline; color:#000;
+    }
+  }
+  
+  

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fa-IR">
+<head>
+  <!-- [1] Basic meta tags for responsive design and language direction -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آفلاین</title>
+  
+  <!-- [2] Inline styles for a simple, self-contained offline page -->
+  <style>
+    /* [3] Basic reset and box-sizing for better layout handling */
+    * {
+      box-sizing: border-box;
+      margin:0; padding:0;
+    }
+
+    /* [4] Root styling variables to match PWA theme (adjust as needed) */
+    :root {
+      --color-accent: #2ecc71;
+      --color-accent-dark: #27ae60;
+      --color-bg: #f9f9fc;
+      --color-text: #333;
+      --radius: 8px;
+      --transition: 0.3s ease;
+      --font-main: sans-serif;
+    }
+
+    /* [5] Body styling: center content, nice background, accessible text */
+    body {
+      font-family: var(--font-main);
+      direction: rtl;
+      text-align: center;
+      background: var(--color-bg);
+      color: var(--color-text);
+      display:flex;flex-direction:column;justify-content:center;align-items:center;
+      min-height:100vh; padding:20px;
+    }
+
+    /* [6] Heading style: friendly message */
+    h1 {
+      font-size:1.5em; font-weight:900; margin-bottom:20px;
+      color: var(--color-text);
+    }
+
+    /* [7] Paragraph text: instructions and tips */
+    p {
+      font-size:1em; line-height:1.6; margin-bottom:20px; max-width:300px; color: var(--color-text);
+    }
+
+    /* [8] Button to go back online or to main page */
+    a {
+      display:inline-block; padding:12px 20px; background:var(--color-accent); color:#fff;
+      border-radius:var(--radius); text-decoration:none; font-weight:bold; margin-top:20px;
+      transition:background var(--transition), transform var(--transition);
+    }
+    a:hover {
+      background:var(--color-accent-dark); transform:scale(1.05);
+    }
+
+    /* [9] SVG container for a nice offline icon, possibly animated */
+    .icon-container {
+      margin-bottom:20px;
+      width:100px; height:100px; position:relative;
+    }
+
+    /* [10] Simple keyframes for a subtle animation (e.g., cloud "floating") */
+    @keyframes float {
+      0%,100% { transform:translateY(0px); }
+      50% { transform:translateY(-5px); }
+    }
+
+    /* [11] The SVG icon itself (a cloud with a slash for offline, for example) */
+    .icon-container svg {
+      width:100%; height:100%;
+      animation: float 3s infinite ease-in-out;
+    }
+
+    /* [12] Additional styling if you want a fallback image or decorative element */
+    .tips {
+      text-align:right; direction:rtl; font-size:0.9em; color:#666; max-width:300px; margin:0 auto; margin-top:10px;
+    }
+    .tips li {
+      margin-bottom:8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- [13] An SVG icon to represent offline status -->
+  <div class="icon-container">
+    <!-- [14] A cloud with a disconnected sign, you can replace with any suitable offline icon -->
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" focusable="false">
+      <defs>
+        <style>
+          .cloud { fill:#ccc; }
+          .slash { stroke:#e74c3c; stroke-width:5; stroke-linecap:round; }
+        </style>
+      </defs>
+      <path class="cloud" d="M46.5 25.6C44.9 18.1 38.6 12 30.9 12c-6 0-11.1 3.5-13.5 8.6C8.5 22 5 26.3 5 31.2c0 6.1 5 11 11.1 11H45c5.2 0 9.4-4.2 9.4-9.4 0-4.8-3.6-8.8-7.9-9.2z"/>
+      <line class="slash" x1="10" y1="54" x2="54" y2="10"/>
+    </svg>
+  </div>
+
+  <!-- [15] A heading indicating we are offline -->
+  <h1>شما آفلاین هستید</h1>
+
+  <!-- [16] A helpful message -->
+  <p>هم‌اکنون اتصال به اینترنت ندارید. لطفاً اینترنت خود را بررسی کنید و سپس دوباره تلاش کنید.</p>
+
+  <!-- [17] Additional tips for users -->
+  <ul class="tips">
+    <li>Wi-Fi یا داده گوشی را فعال کنید.</li>
+    <li>مودم اینترنت را بررسی کنید.</li>
+    <li>پس از اتصال، صفحه را رفرش کنید یا از دکمه زیر استفاده کنید.</li>
+  </ul>
+
+  <!-- [18] A button to return to the main page (which should be cached offline if user visited before) -->
+  <a href="/">بازگشت به صفحه اصلی</a>
+</body>
+</html>

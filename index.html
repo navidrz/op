@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fa-IR">
+<head>
+  <!-- [1] Set character encoding and viewport -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- [2] Page title and description -->
+  <title>گزارش جامع از داده‌های اختیارات بازار | ایران بورس</title>
+  <meta name="description" content="گزارش جامع و تحلیلی از داده‌های اختیارات بازار در ایران بورس. برای تصمیم‌گیری بهتر در معاملات آپشن‌ها، فیلترها و متریک‌های گوناگون را بررسی کنید.">
+  
+  <!-- [3] Manifest and theme color for PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2ecc71">
+  
+  <!-- [4] Preconnect for performance -->
+  <link rel="preconnect" href="https://cdn.tsetmc.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.tsetmc.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  
+  <!-- [5] Load Vazir font -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+  
+  <!-- [6] Main stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-mode">
+<!-- [7] Hidden container for capturing images -->
+<div id="captureContainer"></div>
+
+<!-- [8] Dark mode toggle -->
+<div class="dark-mode-toggle-container">
+  <label>
+    <span class="mode-icon">🌞</span>
+    <input type="checkbox" id="darkModeToggle" aria-pressed="false" aria-label="تغییر حالت تم">
+    <span class="toggle"></span>
+    <span class="mode-icon">🌜</span>
+  </label>
+</div>
+
+<!-- [9] Tour button -->
+<button id="tourBtn" aria-label="راهنمای تور">ℹ️ راهنما</button>
+
+<!-- [10] Header with logo and title -->
+<header role="banner">
+  <a href="/" title="صفحه اصلی ایران بورس">
+    <img src="images/iranbourse2024-3.png" alt="ایران بورس" style="float:right;max-width:150px;margin-left:10px;">
+  </a>
+  <h1>گزارش جامع از داده‌های اختیارات بازار | ایــــران بــــورس</h1>
+</header>
+
+<!-- [11] Tips section -->
+<div id="tipsSection"><p id="tipText">در حال بارگذاری نکات...</p></div>
+
+<!-- [12] Scenario story -->
+<div id="scenarioStory" role="region" aria-live="polite"></div>
+
+<!-- [13] Summary cards -->
+<div id="summary" role="region" aria-label="خلاصه آمار">
+  <div class="card">
+    <h3>بهترین آپشن خرید (CALL)</h3>
+    <p id="bestLongCall">...</p>
+  </div>
+  <div class="card">
+    <h3>بهترین آپشن فروش (CALL)</h3>
+    <p id="bestShortCall">...</p>
+  </div>
+  <div class="card">
+    <h3>بهترین آپشن خرید (PUT)</h3>
+    <p id="bestLongPut">...</p>
+  </div>
+  <div class="card">
+    <h3>بهترین آپشن فروش (PUT)</h3>
+    <p id="bestShortPut">...</p>
+  </div>
+</div>
+
+<!-- [14] Filter Bar -->
+<div id="filterBar" role="region" aria-label="فیلترها و تنظیمات نمایش">
+  <input type="text" id="searchInput" placeholder="جستجو..." aria-label="جستجو بر اساس نام آپشن">
+  <select id="marketScenarioSelect" aria-label="انتخاب سناریوی بازار">
+    <option value="">تمام سناریوها</option>
+  </select>
+  <select id="userMarketViewSelect" aria-label="انتخاب دیدگاه بازار">
+    <option value="">تمام دیدگاه‌ها</option>
+  </select>
+  <div class="strategy-toggle" aria-label="تنظیم نمایش استراتژی">
+    نمایش استراتژی:
+    <label><input type="radio" name="strategy" value="both" checked>هردو</label>
+    <label><input type="radio" name="strategy" value="long">فقط خرید</label>
+    <label><input type="radio" name="strategy" value="short">فقط فروش</label>
+  </div>
+  <div id="filterInfo" aria-live="polite">فیلتر‌ها: 
+    <span id="filterScenario">سناریو: همه</span> |
+    <span id="filterView">دیدگاه: همه</span> |
+    <span id="filterSearch">جستجو: بدون متن</span>
+  </div>
+</div>
+
+<!-- [15] Recommendations -->
+<div id="recommendations" role="region" aria-label="پیشنهادهای برتر">
+  <h2>پیشنهادهای برتر</h2>
+  <p class="recommendation-explanation">
+    در این بخش، بهترین آپشن‌ها را بر اساس جذابیت (نسبت شارپ) مشاهده می‌کنید.
+    اگر آپشن اول با اختلاف چشمگیر پیشتاز باشد، با ذکر "با اختلاف چشمگیر" نمایش داده می‌شود.
+  </p>
+  <div style="display:flex; gap:20px; flex-wrap:wrap; width:100%; justify-content:center;">
+    <div class="recommendation-col" id="topLongCol">
+      <h3>برترین‌ها (خرید) 🌱</h3>
+      <div id="topLongList"></div>
+    </div>
+    <div class="recommendation-col" id="topShortCol">
+      <h3>برترین‌ها (فروش) 🔻</h3>
+      <div id="topShortList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- [16] Favorites Section -->
+<div id="favoritesSection">
+  <h2>علاقه‌مندی‌های شما:</h2>
+  <div id="favoritesList"></div>
+</div>
+
+<!-- [17] Metric Selector -->
+<div id="metricSelector">
+  <h2>انتخاب متریک‌های نمایشی:</h2>
+  <label><input type="checkbox" class="metric-check" value="payout" checked> بازدهی</label>
+  <label><input type="checkbox" class="metric-check" value="pop" checked> PoP</label>
+  <label><input type="checkbox" class="metric-check" value="risk" checked> CVaR (ریسک)</label>
+  <label><input type="checkbox" class="metric-check" value="commentary" checked> تفسیر</label>
+  <label><input type="checkbox" class="metric-check" value="sharpe" checked> نسبت شارپ</label>
+</div>
+
+<!-- [18] Data Container -->
+<div id="dataContainer" role="region" aria-label="لیست آپشن‌ها"></div>
+
+<!-- [19] Bottom Bar (Mobile) -->
+<div class="bottom-bar" role="region" aria-label="کنترل‌های اضافی موبایل">
+  <button id="loadMoreBtn">موارد بیشتر</button>
+  <button id="scrollTopBtn">↑ بالا</button>
+  <button id="exportBtn">دانلود CSV</button>
+</div>
+
+<!-- [20] Go Top Button -->
+<button id="goTopBtn" aria-label="رفتن به بالا">↑</button>
+
+<!-- [21] Loading Overlay -->
+<div id="loadingOverlay" aria-busy="true" aria-label="در حال بارگذاری ...">
+  <div class="spinner"></div>
+</div>
+
+<!-- [22] Compare Bar -->
+<div id="compareBar">
+  <span>لیست مقایسه:</span>
+  <div id="compareList"></div>
+  <button id="compareBtn">مقایسه کن</button>
+</div>
+
+<!-- [23] Compare Modal -->
+<div id="compareModal">
+  <div id="compareModalContent">
+    <h2>مقایسه آپشن‌ها</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>نام آپشن</th>
+          <th>نسبت شارپ خرید</th>
+          <th>نسبت شارپ فروش</th>
+        </tr>
+      </thead>
+      <tbody id="compareTableBody"></tbody>
+    </table>
+    <button class="close-compare">بستن</button>
+  </div>
+</div>
+
+<!-- [24] Badge Popup -->
+<div id="badgePopup">🎉 آفرین! شما یک انتخاب برتر را به علاقه‌مندی‌ها/لایک‌ها افزودید! <span class="icon">🏅</span></div>
+
+<!-- [25] Tour Overlay -->
+<div id="tourOverlay">
+  <p id="tourText">خوش آمدید! در این صفحه می‌توانید آپشن‌های مختلف را بررسی و فیلتر کنید.</p>
+  <button id="tourNextBtn">بعدی</button>
+  <button id="tourCloseBtn">بستن</button>
+</div>
+
+<!-- [26] External scripts (html2canvas, PapaParse) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+
+<!-- [27] Main app JS -->
+<script src="app.js" defer></script>
+
+</body>
+</html>
